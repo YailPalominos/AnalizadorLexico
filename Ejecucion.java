@@ -7,8 +7,13 @@ import java.nio.file.Path; //Bibloteca de la ruta
 import java.nio.file.Paths; //Bibloteca del instanciador de la ruta
 
 public class Ejecucion {
+
+    /**
+     * @author Braulio Yail Palominos Patiño
+     */
+
     // Ruta estatica relativa del programa java
-    static String sRutaEstaticaRelativa = ("C:\\Users\\yailp\\OneDrive\\Documentos\\GitHub\\AnalizadorLexico\\ProgramaEjemploFacil.java");
+    static String sRutaEstaticaRelativa = ("C:\\Users\\yailp\\OneDrive\\Documentos\\GitHub\\AnalizadorLexico\\Ejemplo.txt");
 
     public static void main(String[] args) throws IOException {
 

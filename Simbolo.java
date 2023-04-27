@@ -1,5 +1,7 @@
 public class Simbolo {
-
+    /**
+     * @author Braulio Yail Palominos Patiño
+     */
     public String Token;
     public String Lexema;
     public int Linea;
