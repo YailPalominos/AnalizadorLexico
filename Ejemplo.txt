@@ -1,2 +1,6 @@
-   Linea(3,4)(5,7)-(2)-(255,255,255)
-   
+ Hola
+Linea(1,3)(4,5)-(3)-(255,0,0)
+  Circulo
+Triangulo
+ Rectangulo
+Cuadrado

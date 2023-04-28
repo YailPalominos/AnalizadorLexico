@@ -1,11 +1,10 @@
 public class TblaSimbolos {
-    
+
     private String simbolo;
     private String lexema;
     private int linea;
     private int posInicioSimbolo;
     private int posFinalSimbolo;
-
 
     public TblaSimbolos() {
 
