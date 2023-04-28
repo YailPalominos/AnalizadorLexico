@@ -1,4 +1,5 @@
 public class Resultado {
+<<<<<<< HEAD
 
     public Resultado() {
 
@@ -113,3 +114,35 @@ public class Resultado {
     }
 
 }
+=======
+        /**
+         * @author Braulio Yail Palominos Patiño
+         */
+        public Resultado() {
+
+        }
+
+        public void Imprimir(Simbolo[] aSimbolo) {
+
+                System.out.println(
+                                "---------------------------------------------------------------------------------------------------------------------------------");
+                System.out.printf("%25s %25s %25s %10s %10s", "Token", "Lexema", "Linea", "Inicio", "Final");
+                System.out.println();
+                System.out.println(
+                                "---------------------------------------------------------------------------------------------------------------------------------");
+
+                for (int x = 0; x < aSimbolo.length; x++) {
+                        var Simbolo = aSimbolo[x];
+
+                        System.out.format("%25s %25s %25s %10s %10s", Simbolo.Token, Simbolo.Lexema, Simbolo.Linea,
+                                        Simbolo.PosInicioLexema, Simbolo.PosFinalLexema);
+                        System.out.println();
+
+                }
+                System.out.println(
+                                "---------------------------------------------------------------------------------------------------------------------------------");
+
+        }
+
+}
+>>>>>>> 36b3db99d3d93ba926f1055db9f23e55fc42b65e
