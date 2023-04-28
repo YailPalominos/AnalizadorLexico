@@ -1,4 +1,4 @@
-public class Simbolo {
+public class TblaTokens {
 
     public String Token;
     public String Lexema;
@@ -6,7 +6,7 @@ public class Simbolo {
     public int PosInicioLexema;
     public int PosFinalLexema;
 
-    public Simbolo() {
+    public TblaTokens() {
         this.Token = "";
         this.Lexema = "";
         this.Linea = 0;

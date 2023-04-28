@@ -1,5 +1,7 @@
-public class ProgramaEjemplo {
-
+public class Ejemplo {
+    /**
+     * @author Braulio Yail Palominos Patiño
+     */
     public static void main(String[] args) {
         IngresarDatos(1, 1, -12);
     }
