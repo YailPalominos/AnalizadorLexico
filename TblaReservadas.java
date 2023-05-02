@@ -1,5 +1,5 @@
 public class TblaReservadas {
-     
+
     private String reservada;
     private String lexema;
     private int linea;

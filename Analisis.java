@@ -1,7 +1,5 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-// import java.util.HashSet;
-// import java.util.Set;
 
 public class Analisis {
 
@@ -37,6 +35,7 @@ public class Analisis {
      */
 
     String sCodigoFuente = ""; // Codigo fuente resibido
+    String sCodigoFuenteErrores = ""; // Codigo fuente resibido
     // de analisis
     String[] aFiguras = new String[0]; // Cadena de las figuras a analizar
     Resultado oResultado = new Resultado(); // Clase para imprimir los resultados
@@ -51,6 +50,7 @@ public class Analisis {
 
     public Analisis(String sCodigoFuente) {
         this.sCodigoFuente = sCodigoFuente;
+        this.sCodigoFuenteErrores = sCodigoFuente;
     }
 
     // Genera las clases con los simbolos
@@ -102,25 +102,93 @@ public class Analisis {
                         nPosLectura);
             }
 
-            if (tokenPalabrasrReservadas == null && tokenEspacios == null && tokenFiguras == null) {
+        }
 
-                String tokenDesconocido = sCodigoFuente.substring(nPosLectura,
-                        mMatcher.end());
-                nPosLectura += tokenDesconocido.length();
-                int nPosInicioLexema = nPosLectura - tokenDesconocido.length();
-                AgregarTablaErrores("Símbolo no reconocido:", tokenDesconocido, nLinea,
-                        nPosInicioLexema, nPosLectura);
+        // Codigo fuente a chart para leer parte por parte
+        var cLetras = this.sCodigoFuenteErrores.toCharArray();
+        String sPalabra = "";
+        Pattern pPatronError = Pattern.compile(
+                "(((\\(\\d{1,2},\\d{1,2}\\)){2,4})+-+\\([1-3]\\)+-+\\((25[0-5]|2[0-4]\\d|1\\d{1,2}|\\d{1,2}),(25[0-5]|2[0-4]\\d|1\\d{1,2}|\\d{1,2}),(25[0-5]|2[0-4]\\d|1\\d{1,2}|\\d{1,2})\\))");
+        this.nPosLectura = 0;
+        // Recorre palabra por palabra encontrada
+        for (int y = 0; y < cLetras.length; y++) {
+
+            nLinea = ObtenerLinea(sCodigoFuenteErrores, y);
+            sPalabra += cLetras[y];
+            this.nPosLectura++;
+
+            if (sPalabra.split("\\s").length > 0) {
+                this.nPosLectura -= 1;
+                sPalabra = sPalabra.trim();
+
+                char cLeta = cLetras[y];
+                var x = ((cLeta + "").replace("", " ").trim());
+
+                // System.out.println(">" + sPalabra);
+
+                if (sPalabra.equals("Rectangulo")) {
+                    sPalabra = sPalabra.replaceAll("Rectangulo", "");
+                    nPosLectura += "Rectangulo".length();
+                }
+
+                if (sPalabra.equals("Triangulo")) {
+                    sPalabra = sPalabra.replaceAll("Triangulo", "");
+                    nPosLectura += "Triangulo".length();
+                }
+
+                if (sPalabra.equals("Cuadrado")) {
+                    sPalabra = sPalabra.replaceAll("Cuadrado", "");
+                    nPosLectura += "Cuadrado".length();
+                }
+                if (sPalabra.equals("Circulo")) {
+                    sPalabra = sPalabra.replaceAll("Circulo", "");
+                    nPosLectura += "Circulo".length();
+                }
+                if (sPalabra.equals("Linea")) {
+                    sPalabra = sPalabra.replaceAll("Linea", "");
+                    nPosLectura += "Linea".length();
+                }
+                // System.out.println(">" + nPosLectura);
+
+                if (x.length() == 0) {
+                    Matcher mMatcherError = pPatronError.matcher(sPalabra);
+
+                    if (mMatcherError.find()) {
+                        sPalabra = "";
+                    } else {
+                        this.nPosLectura += sPalabra.length();
+                        int nPosInicioLexema = this.nPosLectura - sPalabra.length();
+                        AgregarTablaErrores("Error:", sPalabra, nLinea, nPosInicioLexema,
+                                nPosLectura);
+                        sPalabra = "";
+                    }
+                }
             }
-
         }
 
         oResultado.ImprimirTblaTokens(TaToken);
+        System.out.println();
         oResultado.ImprimirTblaPlRes(TaReserv);
+        System.out.println();
         oResultado.ImprimirTblaSimb(TaSimbolos);
+        System.out.println();
         oResultado.ImprimirTblaError(TaErrors);
+        System.out.println();
 
+        if (this.aFiguras.length > 0)
+
+        {
+            System.out.println(
+                    "---------------------------------------------------------------------------------------------------------------------------------");
+            System.out.printf("%70s", "Resultados de las figuras");
+            System.out.println();
+            System.out.println(
+                    "---------------------------------------------------------------------------------------------------------------------------------");
+        }
         for (int x = 0; x < this.aFiguras.length; x++) {
             oDesglosar.PrepararDatos(this.aFiguras[x]);
+            System.out.println(
+                    "---------------------------------------------------------------------------------------------------------------------------------");
         }
 
     }
@@ -139,12 +207,11 @@ public class Analisis {
         oTblaSimbolo.PosInicioLexema = nPosInicioLexema;
         oTblaSimbolo.PosFinalLexema = nPosFinalLexema;
 
-        // if (oTblaSimbolo.Token.contains("Figura:")) {
-
-        // }
+        if (oTblaSimbolo.Token.contains("Figura:")) {
+            AgregarFigura(oTblaSimbolo.Lexema);
+        }
 
         aTblaTokensNueva[aTblaTokensNueva.length - 1] = oTblaSimbolo;
-
         this.TaToken = aTblaTokensNueva;
 
     }
@@ -234,6 +301,16 @@ public class Analisis {
 
         this.TaSimbolos = aSimboloNuevo;
     }// Fin del metodo AgregarTablaSimbolos
+
+    public void AgregarFigura(String sFigura) {
+
+        String[] aFigurasNueva = this.aFiguras;
+        aFigurasNueva = new String[this.aFiguras.length + 1];
+        System.arraycopy(this.aFiguras, 0, aFigurasNueva, 0, this.aFiguras.length);
+
+        aFigurasNueva[aFigurasNueva.length - 1] = sFigura;
+        this.aFiguras = aFigurasNueva;
+    }
 
     int ObtenerLinea(String sCodigoFuente, int nInicio) {
         int nLinea = 0;
