@@ -31,8 +31,7 @@ public class Evaluar {
         }
 
         // Evaluaciones de numero de vectores
-        System.out.println(
-                "---------------------------------------------------------------------------------------------------------------------------------");
+
         switch (nVectores) {
 
             // Circulo o Linea
@@ -95,21 +94,17 @@ public class Evaluar {
 
         }
 
-        System.out.println("Vectores = " + nVectores);
+        System.out.println("Vértices = " + nVectores);
         System.out.println("Grosor = " + oFiguras.nGr);
         Color cFigura = new Color(oFiguras.nR, oFiguras.nG, oFiguras.nB);
         System.out.println("Color = " + cFigura);
 
-        System.out.println(
-                "---------------------------------------------------------------------------------------------------------------------------------");
     }
 
     public double Distancia(double nX1, double nY1, double nX2, double nY2) {
 
         // Realizamos el calculo de las distancias entre puntos
-
         double nDistancia = 0d;
-
         nDistancia = Math.sqrt((Math.pow((nX2 - nX1), 2) + Math.pow((nY2 - nY1), 2)));
         return nDistancia;
     }
